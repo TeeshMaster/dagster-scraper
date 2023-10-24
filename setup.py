@@ -10,7 +10,9 @@ setup(
         "dagster-snowflake-pandas",
         "dbt-snowflake",
         "pandas",
-        "requests"
+        "requests",
+        "bs4",
+        "googlemaps"
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"], "tests": ["mypy", "pylint", "pytest"]},
 )

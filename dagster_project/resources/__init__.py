@@ -15,8 +15,7 @@ dbt_dev_resource = DbtCliResource(
 
 staging_assets = load_assets_from_package_module(
     package_module=staging,
-    group_name="staging",
-    key_prefix=["snowflake", "staging"]
+    group_name="staging"
 )
 
 RESOURCES_DEV = {
