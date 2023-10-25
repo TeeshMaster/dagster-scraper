@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
@@ -12,7 +13,7 @@ import logging
 def geocoder(geocode_search):
 
     try:
-        geolocator = googlemaps.Client(key=EnvVar("GOOGLE_GEO_API_KEY"))
+        geolocator = googlemaps.Client(key=os.environ['GOOGLE_GEO_API_KEY'])
         locator = geolocator.geocode(geocode_search)
         coordinates = locator[0]['geometry']['location']
         return {'latitude' : coordinates['lat'], 'longitude' : coordinates['lng'] }
@@ -79,6 +80,7 @@ def data_engineer_jobs_stg() -> pd.DataFrame:
             break
 
     df = pd.DataFrame(all_rows, columns = ['run_datetime', 'published_date', 'job_title', 'company_name', 'location', 'salary', 'category', 'short_description', 'featured', 'latitude', 'longitude', 'job_url', 'search_job_title', 'search_job_location'])
+
     return df
     
     

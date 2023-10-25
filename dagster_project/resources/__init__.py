@@ -1,3 +1,4 @@
+import os
 
 from dagster import load_assets_from_package_module, EnvVar
 from dagster._utils import file_relative_path
@@ -20,12 +21,11 @@ staging_assets = load_assets_from_package_module(
 
 RESOURCES_DEV = {
     "snowflake_io_manager": SnowflakePandasIOManager(
-        account=EnvVar("SNOWFLAKE_ACCOUNT"),
-        user=EnvVar("SNOWFLAKE_USER"),
-        password=EnvVar("SNOWFLAKE_PASSWORD"),
-        database=EnvVar("SNOWFLAKE_DATABASE"),
-        warehouse=EnvVar("SNOWFLAKE_WAREHOUSE"),
-        schema=EnvVar("SNOWFLAKE_SCHEMA")
+        account=os.environ['SNOWFLAKE_ACCOUNT'],
+        user=os.environ['SNOWFLAKE_USER'],
+        password=os.environ['SNOWFLAKE_PASSWORD'],
+        warehouse=os.environ['SNOWFLAKE_WAREHOUSE'],
+        database=os.environ['SNOWFLAKE_DATABASE']
     ),
     "dbt": dbt_dev_resource,
 }
