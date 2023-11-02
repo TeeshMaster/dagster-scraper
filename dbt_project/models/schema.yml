@@ -1,4 +1,5 @@
 version: 2
 
 models:
-
+  - name: data_engineer_jobs
+    description: "SEEK Data Engineering Listings"

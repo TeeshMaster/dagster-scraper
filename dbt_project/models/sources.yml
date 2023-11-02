@@ -1,4 +1,7 @@
 version: 2
 
 sources:
+  - name: analytics
+    tables:
+      - name: data_engineer_jobs_stg
 

@@ -1,4 +1,4 @@
-dbt:
+my_dbt:
   target: dev
   outputs:
     dev:
@@ -11,5 +11,6 @@ dbt:
 
       database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA') }}"
       threads: 4
       client_session_keep_alive: False
