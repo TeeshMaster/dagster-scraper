@@ -1,4 +1,9 @@
-
+{{
+    config(
+        materialized='incremental',
+        unique_key=['JOB_URL']
+    )
+}}
 
 select
     RUN_DATETIME, 
@@ -16,3 +21,11 @@ select
     SEARCH_JOB_TITLE, 
     SEARCH_JOB_LOCATION
 from {{ source('analytics', 'data_engineer_jobs_stg') }}
+
+{% if is_incremental() %}
+
+  -- this filter will only be applied on an incremental run
+  -- (uses > to include records whose timestamp occurred since the last run of this model)
+  where RUN_DATETIME > (select max(RUN_DATETIME) from {{ this }})
+
+{% endif %}
