@@ -20,6 +20,8 @@ def display_kpi_metrics(kpis: List[float], kpi_names: List[str]):
     for i, (col, (kpi_name, kpi_value)) in enumerate(zip(st.columns(4), zip(kpi_names, kpis))):
         col.metric(label=kpi_name, value=kpi_value)
 
+
+
 def main():
 
     data = load_data()
@@ -36,6 +38,9 @@ def main():
         latitude='LATITUDE',
         longitude='LONGITUDE'
     )
+
+    jobs_by_day = data.groupby([data['RUN_DATETIME'].dt.date])['JOB_URL'].nunique()
+    st.line_chart(jobs_by_day)
 
     st.write(data)
 
