@@ -145,3 +145,5 @@ test.env
 .user.yml
 dbt_project/user.yml
 dbt_project/.user.yml
+
+.streamlit/secrets*

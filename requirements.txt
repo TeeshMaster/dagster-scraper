@@ -1,0 +1,12 @@
+bs4
+dagster
+dagster-webserver
+dagster-postgres
+dagster-dbt
+dagster-pandas
+dagster-snowflake-pandas
+dbt-snowflake
+googlemaps
+pandas
+requests
+streamlit

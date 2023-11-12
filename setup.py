@@ -5,6 +5,8 @@ setup(
     packages=find_packages(exclude=["test"]),
     install_requires=[
         "dagster",
+        "dagster-webserver",
+        "dagster_postgres",
         "dagster-dbt",
         "dagster-pandas",
         "dagster-snowflake-pandas",

@@ -10,11 +10,6 @@ from ..assets import analytics
 DBT_PROJECT_DIR = file_relative_path(__file__, "../../dbt_project")
 DBT_PROFILES_DIR = file_relative_path(__file__, "../../dbt_project/")
 
-# dbt_dev_resource = DbtCliResource(
-#     project_dir=DBT_PROJECT_DIR,
-#     target="dev",
-# )
-
 dbt_assets = load_assets_from_dbt_project(
     project_dir=DBT_PROJECT_DIR,
     profiles_dir=DBT_PROFILES_DIR,
