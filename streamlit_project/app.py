@@ -2,7 +2,6 @@ from typing import List
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
-import math
 
 conn = st.connection("snowflake")
 
@@ -22,8 +21,6 @@ def display_kpi_metrics(kpis: List[float], kpi_names: List[str]):
     for i, (col, (kpi_name, kpi_value)) in enumerate(zip(st.columns(4), zip(kpi_names, kpis))):
         col.metric(label=kpi_name, value=kpi_value)
 
-
-
 def main():
 
     data = load_data()
@@ -35,35 +32,35 @@ def main():
     kpi_names = ["Total Listings", "Total Companies"]
     display_kpi_metrics(kpis, kpi_names)
 
-    st.map(
-        data,
-        latitude='LATITUDE',
-        longitude='LONGITUDE'
+    layer = pdk.Layer(
+                    'ScatterplotLayer',
+                    data,
+                    get_position='[LONGITUDE, LATITUDE]',
+                    opacity=0.8,
+                    stroked=True,
+                    filled=True,
+                    pickable=True,
+                    radius_scale=6,
+                    radius_min_pixels=10,
+                    radius_max_pixels=100,
+                    line_width_min_pixels=1,
+                    get_fill_color=[255, 140, 0],
+                    get_line_color=[0, 0, 0],
+                )
+    view_state = pdk.ViewState(
+        longitude=data['LONGITUDE'].mean(),
+        latitude=data['LATITUDE'].mean(),
+        zoom=4
     )
 
-    st.pydeck_chart(pdk.Deck(
-        map_style=None,
-        layers=[
-            pdk.Layer(
-            'ScatterplotLayer',
-            data,
-            get_position='[LATITUDE, LONGITUDE]',
-            radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
-            pickable=True,
-            extruded=True,
-            ),
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=data,
-                get_position='[LATITUDE, LONGITUDE]',
-                get_color='[200, 30, 0, 160]',
-                get_radius=200,
-            ),
-        ],
-    ))
+    tooltip = {
+                "html": "<b>Job Title: </b>{JOB_TITLE}</br> <b>Company: </b>{COMPANY_NAME}</br> <b>Listed: </b>{PUBLISHED_DATE}",
+                "style": {
+                    "font-size": "75%"
+                }
+            }
 
+    st.pydeck_chart(pdk.Deck(layers=[layer], initial_view_state=view_state, tooltip=tooltip))
     st.write(data)
 
 if __name__ == '__main__':
