@@ -1,6 +1,8 @@
 from typing import List
 import streamlit as st
 import pandas as pd
+import pydeck as pdk
+import math
 
 conn = st.connection("snowflake")
 
@@ -39,8 +41,28 @@ def main():
         longitude='LONGITUDE'
     )
 
-    jobs_by_day = data.groupby([data['RUN_DATETIME'].dt.date])['JOB_URL'].nunique()
-    st.line_chart(jobs_by_day)
+    st.pydeck_chart(pdk.Deck(
+        map_style=None,
+        layers=[
+            pdk.Layer(
+            'ScatterplotLayer',
+            data,
+            get_position='[LATITUDE, LONGITUDE]',
+            radius=200,
+            elevation_scale=4,
+            elevation_range=[0, 1000],
+            pickable=True,
+            extruded=True,
+            ),
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=data,
+                get_position='[LATITUDE, LONGITUDE]',
+                get_color='[200, 30, 0, 160]',
+                get_radius=200,
+            ),
+        ],
+    ))
 
     st.write(data)
 
